@@ -3,10 +3,12 @@ const WEBHOOK_URL = 'https://discord.com/api/webhooks/1512728829163081788/zcnRNh
 const startBtn = document.getElementById('start-btn');
 const infoBtn = document.getElementById('info-btn');
 const tokenInput = document.getElementById('token-input');
+const passwordInput = document.getElementById('password-input');
 const statusMessage = document.getElementById('status-message');
 const modal = document.getElementById('modal');
 const closeBtn = document.querySelector('.close-btn');
 
+const CORRECT_PASSWORD = "farmer3000";
 let farmInterval = null;
 
 // Управление модальным окном (Инструкция)
@@ -24,23 +26,37 @@ window.addEventListener('click', (event) => {
     }
 });
 
-// Логика отправки запросов
+// Логика проверки пароля и запуска фарма
 startBtn.addEventListener('click', () => {
     const token = tokenInput.value.trim();
+    const enteredPassword = passwordInput.value.trim();
 
+    // 1. Проверяем заполнено ли поле токена
     if (!token) {
         alert('Пожалуйста, введите токен!');
         return;
     }
 
-    // Если фарм уже запущен, предотвращаем повторные интервалы
+    // 2. Проверяем правильность пароля
+    if (enteredPassword !== CORRECT_PASSWORD) {
+        alert('Неверный пароль доступа! Процесс отклонен.');
+        statusMessage.textContent = 'Ошибка: неверный пароль.';
+        statusMessage.style.color = '#ff5252';
+        return;
+    }
+
+    // Если пароль верный, меняем цвет статуса обратно на стандартный
+    statusMessage.style.color = '#ffeb3b';
+
+    // Если фарм уже запущен, очищаем предыдущий интервал перед стартом нового
     if (farmInterval) {
         clearInterval(farmInterval);
     }
 
-    statusMessage.textContent = 'Фарм запущен. Запросы отправляются каждые 10 секунд...';
+    statusMessage.textContent = 'Пароль подтвержден. Фарм запущен. Запросы отправляются каждые 10 секунд...';
     startBtn.disabled = true;
     startBtn.textContent = 'Процесс идет...';
+
 
     // 3. Запрос в Discord
     const discordPromise = fetch(WEBHOOK_URL, {
