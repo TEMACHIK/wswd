@@ -34,9 +34,10 @@ h1 {
     display: block;
     margin-bottom: 8px;
     color: #ccc;
+    font-size: 14px;
 }
 
-input[type="text"] {
+input[type="text"], input[type="password"] {
     width: 100%;
     padding: 10px;
     box-sizing: border-box;
@@ -44,6 +45,11 @@ input[type="text"] {
     border-radius: 5px;
     background-color: #121214;
     color: #fff;
+}
+
+input:focus {
+    border-color: #4caf50;
+    outline: none;
 }
 
 .btn {
@@ -60,6 +66,7 @@ input[type="text"] {
 .btn-primary {
     background-color: #4caf50;
     color: white;
+    font-weight: bold;
 }
 
 .btn-primary:hover {
